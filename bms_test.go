@@ -10,14 +10,14 @@ func assert(t *testing.T, b bool) {
 	}
 }
 
-func TestBms1(t *testing.T) {
+func TestSearch(t *testing.T) {
 	haystack := "bokkobokkkobokkkkobokkobokkkobokkkko"
 	needle := "bokko"
 
 	assert(t, Search(haystack, needle) == 2)
 }
 
-func TestBms2(t *testing.T) {
+func TestSearchMutibyte(t *testing.T) {
 	haystack := "bokkobokkko久保bokkkkobokko久保bokkkobokkkko"
 	needle := "久保"
 
