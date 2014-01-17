@@ -4,7 +4,7 @@ import (
 	"unicode/utf8"
 )
 
-func buildSkipTable (needle string) map[rune]int {
+func BuildSkipTable (needle string) map[rune]int {
 	l := utf8.RuneCountInString(needle)
 	runes := []rune(needle)
 
@@ -18,14 +18,13 @@ func buildSkipTable (needle string) map[rune]int {
 	return table
 }
 
-func Search (haystack, needle string) int {
-
+func SearchBySkipTable (haystack, needle string, table map[rune]int) int {
+	
 	i, c := 0, 0
 	hrunes := []rune(haystack)
 	nrunes := []rune(needle)
 	hl := utf8.RuneCountInString(haystack)
 	nl := utf8.RuneCountInString(needle)
-	table := buildSkipTable(needle)
 
 	if hl == 0 || nl == 0 || hl < nl {
 		return 0
@@ -67,4 +66,9 @@ loop:
 	}
 
 	return c
+}
+
+func Search (haystack, needle string) int {
+	table := BuildSkipTable(needle)
+	return SearchBySkipTable(haystack, needle, table)
 }

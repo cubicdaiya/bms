@@ -66,3 +66,20 @@ func TestSameLengthHaystackAndNeedle(t *testing.T) {
 
 	assert(t, Search(haystack, needle) == 0)
 }
+
+func TestSearchBySkipTable(t *testing.T) {
+	haystack := "bokkobokkkobokkkkobokkobokkkobokkkko"
+	needle := "bokko"
+
+	table := BuildSkipTable(needle)
+	assert(t, SearchBySkipTable(haystack, needle, table) == 2)
+}
+
+func TestSearchByInvalidSkipTable(t *testing.T) {
+	haystack := "bokkobokkkobokkkkobokkobokkkobokkkko"
+	needle := "bokko"
+	needle2 := "cubicdaiya"
+
+	table := BuildSkipTable(needle2)
+	assert(t, SearchBySkipTable(haystack, needle, table) != 2)
+}
