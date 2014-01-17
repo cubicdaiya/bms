@@ -4,15 +4,15 @@ import (
 	"unicode/utf8"
 )
 
-func buildSkipTable (needle string) map[string]int {
+func buildSkipTable (needle string) map[rune]int {
 	l := utf8.RuneCountInString(needle)
 	runes := []rune(needle)
 
-	table := make(map[string]int)
+	table := make(map[rune]int)
 
 	for i:=0;i<l-1;i++ {
 		j := runes[i]
-		table[string(j)] = l - i - 1
+		table[j] = l - i - 1
 	}
 
 	return table
@@ -35,14 +35,14 @@ loop:
 	for i + nl <= hl {
 		for j:=nl-1;j>=0;j-- {
 			if hrunes[i + j] != nrunes[j] {
-				if _, ok := table[string(hrunes[i + j])]; !ok {
+				if _, ok := table[hrunes[i + j]]; !ok {
 					if j == nl - 1 {
 						i += nl
 					} else {
 						i += nl - j - 1
 					}
 				} else {
-					n := table[string(hrunes[i + j])] - (nl - j - 1)
+					n := table[hrunes[i + j]] - (nl - j - 1)
 					if n <= 0 {
 						i++
 					} else {
@@ -53,8 +53,8 @@ loop:
 			}
 		}
 
-		if _, ok := table[string(hrunes[i + nl - 1])]; ok {
-			i += table[string(hrunes[i + nl - 1])]
+		if _, ok := table[hrunes[i + nl - 1]]; ok {
+			i += table[hrunes[i + nl - 1]]
 		}else {
 			i += nl
 		}
