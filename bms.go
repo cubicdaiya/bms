@@ -27,6 +27,10 @@ func Search (haystack, needle string) int {
 	nl := utf8.RuneCountInString(needle)
 	table := buildSkipTable(needle)
 
+	if hl == 0 || nl == 0 || hl < nl {
+		return 0
+	}
+
 loop:
 	for i + nl <= hl {
 		for j:=nl-1;j>=0;j-- {

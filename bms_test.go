@@ -23,3 +23,24 @@ func TestBms2(t *testing.T) {
 
 	assert(t, Search(haystack, needle) == 2)
 }
+
+func TestEmtpyHaystack(t *testing.T) {
+	haystack := ""
+	needle := "bokko"
+
+	assert(t, Search(haystack, needle) == 0)
+}
+
+func TestEmtpyNeedle(t *testing.T) {
+	haystack := "bokko"
+	needle := ""
+
+	assert(t, Search(haystack, needle) == 0)
+}
+
+func TestShorterHaystackThanNeedle(t *testing.T) {
+	haystack := "bokko"
+	needle := "bokkko"
+
+	assert(t, Search(haystack, needle) == 0)
+}
