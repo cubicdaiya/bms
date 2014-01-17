@@ -4,6 +4,7 @@ import (
 	"unicode/utf8"
 )
 
+// build skip table of needle for Boyer-Moore search.
 func BuildSkipTable(needle string) map[rune]int {
 	l := utf8.RuneCountInString(needle)
 	runes := []rune(needle)
@@ -18,6 +19,8 @@ func BuildSkipTable(needle string) map[rune]int {
 	return table
 }
 
+// search a needle in haystack and return count of needle.
+// table is build by BuildSkipTable.
 func SearchBySkipTable(haystack, needle string, table map[rune]int) int {
 
 	i, c := 0, 0
@@ -68,6 +71,7 @@ loop:
 	return c
 }
 
+// search a needle in haystack and return count of needle.
 func Search(haystack, needle string) int {
 	table := BuildSkipTable(needle)
 	return SearchBySkipTable(haystack, needle, table)
