@@ -31,6 +31,10 @@ func Search (haystack, needle string) int {
 		return 0
 	}
 
+	if hl == nl && haystack == needle {
+		return 1
+	}
+
 loop:
 	for i + nl <= hl {
 		for j:=nl-1;j>=0;j-- {
