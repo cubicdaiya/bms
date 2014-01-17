@@ -21,8 +21,9 @@ c := bms.Search(haystack, needle) // c is 2
 ## bms.SearchBySkipTable
 
 `bms.SearchBySkipTable` is basically same as `bms.Search`. But This is efficient when same needle is used many times.
-`bms.Search` builds a skip-table every time it is called. 
-On the other hand, `bms.SearchBySkipTable` requires a skip-table as an argument.
+
+`bms.Search` builds a skip-table every time it is called. On the other hand, `bms.SearchBySkipTable` requires a skip-table as an argument.
+
 So it avoids an overhead of building a skip-table when same needle is used many times.
 
 ```go
