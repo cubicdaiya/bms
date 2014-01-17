@@ -10,11 +10,18 @@ func assert(t *testing.T, b bool) {
 	}
 }
 
-func TestSearch(t *testing.T) {
+func TestSearchSuccess(t *testing.T) {
 	haystack := "bokkobokkkobokkkkobokkobokkkobokkkko"
 	needle := "bokko"
 
 	assert(t, Search(haystack, needle) == 2)
+}
+
+func TestSearchFail(t *testing.T) {
+	haystack := "bokkobokkkobokkkkobokkobokkkobokkkko"
+	needle := "bokkkkko"
+
+	assert(t, Search(haystack, needle) == 0)
 }
 
 func TestSearchMutibyte(t *testing.T) {
@@ -41,6 +48,21 @@ func TestEmtpyNeedle(t *testing.T) {
 func TestShorterHaystackThanNeedle(t *testing.T) {
 	haystack := "bokko"
 	needle := "bokkko"
+
+	assert(t, Search(haystack, needle) == 0)
+}
+
+func TestSameHaystackAndNeedle(t *testing.T) {
+	haystack := "bokko"
+	needle := "bokko"
+
+	assert(t, Search(haystack, needle) == 1)
+}
+
+
+func TestSameLengthHaystackAndNeedle(t *testing.T) {
+	haystack := "okkob"
+	needle := "bokko"
 
 	assert(t, Search(haystack, needle) == 0)
 }
