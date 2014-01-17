@@ -59,7 +59,6 @@ func TestSameHaystackAndNeedle(t *testing.T) {
 	assert(t, Search(haystack, needle) == 1)
 }
 
-
 func TestSameLengthHaystackAndNeedle(t *testing.T) {
 	haystack := "okkob"
 	needle := "bokko"

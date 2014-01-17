@@ -4,13 +4,13 @@ import (
 	"unicode/utf8"
 )
 
-func BuildSkipTable (needle string) map[rune]int {
+func BuildSkipTable(needle string) map[rune]int {
 	l := utf8.RuneCountInString(needle)
 	runes := []rune(needle)
 
 	table := make(map[rune]int)
 
-	for i:=0;i<l-1;i++ {
+	for i := 0; i < l-1; i++ {
 		j := runes[i]
 		table[j] = l - i - 1
 	}
@@ -18,8 +18,8 @@ func BuildSkipTable (needle string) map[rune]int {
 	return table
 }
 
-func SearchBySkipTable (haystack, needle string, table map[rune]int) int {
-	
+func SearchBySkipTable(haystack, needle string, table map[rune]int) int {
+
 	i, c := 0, 0
 	hrunes := []rune(haystack)
 	nrunes := []rune(needle)
@@ -35,17 +35,17 @@ func SearchBySkipTable (haystack, needle string, table map[rune]int) int {
 	}
 
 loop:
-	for i + nl <= hl {
-		for j:=nl-1;j>=0;j-- {
-			if hrunes[i + j] != nrunes[j] {
-				if _, ok := table[hrunes[i + j]]; !ok {
-					if j == nl - 1 {
+	for i+nl <= hl {
+		for j := nl - 1; j >= 0; j-- {
+			if hrunes[i+j] != nrunes[j] {
+				if _, ok := table[hrunes[i+j]]; !ok {
+					if j == nl-1 {
 						i += nl
 					} else {
 						i += nl - j - 1
 					}
 				} else {
-					n := table[hrunes[i + j]] - (nl - j - 1)
+					n := table[hrunes[i+j]] - (nl - j - 1)
 					if n <= 0 {
 						i++
 					} else {
@@ -56,9 +56,9 @@ loop:
 			}
 		}
 
-		if _, ok := table[hrunes[i + nl - 1]]; ok {
-			i += table[hrunes[i + nl - 1]]
-		}else {
+		if _, ok := table[hrunes[i+nl-1]]; ok {
+			i += table[hrunes[i+nl-1]]
+		} else {
 			i += nl
 		}
 
@@ -68,7 +68,7 @@ loop:
 	return c
 }
 
-func Search (haystack, needle string) int {
+func Search(haystack, needle string) int {
 	table := BuildSkipTable(needle)
 	return SearchBySkipTable(haystack, needle, table)
 }
