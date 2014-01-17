@@ -8,7 +8,7 @@ Boyer-Moore search algorithm in Go.
 
 ## bms.Search
 
-`bms.Search` searches a needle in haystack and returns count of needle.
+`bms.Search` searches a needle in a haystack and returns count of needle.
 
 ```go
 haystack := "bokkobokkkobokkkkobokkobokkkobokkkko"
