@@ -4,81 +4,94 @@ import (
 	"testing"
 )
 
-func assert(t *testing.T, b bool) {
-	if !b {
-		t.Fail()
+func TestSearch(t *testing.T) {
+
+	tests := []struct {
+		haystack string
+		needle   string
+		result   int
+	}{
+		{
+			// SearchSuccess
+			"bokkobokkkobokkkkobokkobokkkobokkkko",
+			"bokko",
+			2,
+		},
+		{
+			// SearchFail
+			"bokkobokkkobokkkkobokkobokkkobokkkko",
+			"bokkkkko",
+			0,
+		},
+		{
+			// SearchMultibyte
+			"bokkobokkko久保bokkkkobokko久保bokkkobokkkko",
+			"久保",
+			2,
+		},
+		{
+			// EmptyHaystack
+			"",
+			"bokko",
+			0,
+		},
+		{
+			// EmptyNeedle
+			"bokko",
+			"",
+			0,
+		},
+		{
+			// ShorterHaystackThanNeedle
+			"bokko",
+			"bokkko",
+			0,
+		},
+		{
+			// SameHaystackAndNeedle
+			"bokko",
+			"bokko",
+			1,
+		},
+		{
+			// SameLengthHaystackAndNeedle
+			"okkob",
+			"bokko",
+			0,
+		},
 	}
-}
 
-func TestSearchSuccess(t *testing.T) {
-	haystack := "bokkobokkkobokkkkobokkobokkkobokkkko"
-	needle := "bokko"
-
-	assert(t, Search(haystack, needle) == 2)
-}
-
-func TestSearchFail(t *testing.T) {
-	haystack := "bokkobokkkobokkkkobokkobokkkobokkkko"
-	needle := "bokkkkko"
-
-	assert(t, Search(haystack, needle) == 0)
-}
-
-func TestSearchMutibyte(t *testing.T) {
-	haystack := "bokkobokkko久保bokkkkobokko久保bokkkobokkkko"
-	needle := "久保"
-
-	assert(t, Search(haystack, needle) == 2)
-}
-
-func TestEmtpyHaystack(t *testing.T) {
-	haystack := ""
-	needle := "bokko"
-
-	assert(t, Search(haystack, needle) == 0)
-}
-
-func TestEmtpyNeedle(t *testing.T) {
-	haystack := "bokko"
-	needle := ""
-
-	assert(t, Search(haystack, needle) == 0)
-}
-
-func TestShorterHaystackThanNeedle(t *testing.T) {
-	haystack := "bokko"
-	needle := "bokkko"
-
-	assert(t, Search(haystack, needle) == 0)
-}
-
-func TestSameHaystackAndNeedle(t *testing.T) {
-	haystack := "bokko"
-	needle := "bokko"
-
-	assert(t, Search(haystack, needle) == 1)
-}
-
-func TestSameLengthHaystackAndNeedle(t *testing.T) {
-	haystack := "okkob"
-	needle := "bokko"
-
-	assert(t, Search(haystack, needle) == 0)
+	for _, test := range tests {
+		result := Search(test.haystack, test.needle)
+		if result != test.result {
+			t.Errorf("haystack: %s, needle: %s, want: %d, got: %d\n", test.haystack, test.needle, test.result, result)
+		}
+	}
 }
 
 func TestSearchBySkipTable(t *testing.T) {
 	haystack := "bokkobokkkobokkkkobokkobokkkobokkkko"
 	needle := "bokko"
+	expected := 2
 
 	table := BuildSkipTable(needle)
-	assert(t, SearchBySkipTable(haystack, needle, table) == 2)
+	got := SearchBySkipTable(haystack, needle, table)
+
+	if got != expected {
+		t.Errorf("haystack: %s, needle: %s, want: %d, got: %d\n", haystack, needle, expected, got)
+	}
 }
 
 func TestSearchByInvalidSkipTable(t *testing.T) {
 	haystack := "bokkobokkkobokkkkobokkobokkkobokkkko"
 	needle := "bokko"
 	needle2 := "cubicdaiya"
+	expected := 1
 
 	table := BuildSkipTable(needle2)
-	assert(t, SearchBySkipTable(haystack, needle, table) != 2)
+	got := SearchBySkipTable(haystack, needle, table)
+
+	if got != expected {
+		t.Errorf("haystack: %s, needle: %s, want: %d, got: %d\n", haystack, needle, expected, got)
+	}
 }
